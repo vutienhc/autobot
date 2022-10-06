@@ -2,8 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StatusCode } from 'src/common/enums';
 import { Message } from 'src/common/message.const';
+import { createPaginationObject } from 'src/common/pagination';
 import { Repository } from 'typeorm';
 import { Storages } from './storage.entity';
+import { AllDto } from './storages.dto';
 
 @Injectable()
 export class StoragesService {
@@ -13,7 +15,18 @@ export class StoragesService {
   ) {}
 
   async all(query: AllDto) : Promise<any> {
-    
+    const limit = parseInt(query.limit) || 25;
+    const page = parseInt(query.page) || 1;
+    const q = this.repository.createQueryBuilder('storages');
+
+
+    const [result, total] = await q
+      .take(limit)
+      .skip(limit * (page - 1))
+      .orderBy('storages.id', 'DESC')
+      .getManyAndCount();
+
+    return createPaginationObject(result, total, page, limit);
   }
 
   async create(data: Storages): Promise<any> {

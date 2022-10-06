@@ -1,4 +1,4 @@
 export class AllDto {
   limit: string;
-  number: string;
+  page: string;
 }
