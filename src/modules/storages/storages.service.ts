@@ -64,4 +64,9 @@ export class StoragesService {
       });
     }
   }
+
+  async byId(id: number) {
+    const sto = this.repository.findOne({ where: { id } });
+    return sto;
+  }
 }

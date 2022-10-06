@@ -1,7 +1,7 @@
 import { SourceType } from "src/common/enums";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity('source')
 export class Source {
     @PrimaryGeneratedColumn()
     id: number;

@@ -128,4 +128,9 @@ export class UserService {
       });
     }
   }
+
+  async byId(id: number) {
+    const user = this.userRepository.findOne({ where: { id } });
+    return user;
+  }
 }

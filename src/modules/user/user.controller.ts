@@ -36,6 +36,12 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  async byId(@Param('id') id: number) {
+    return await this.userService.byId(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(@Body() data: RegisterDto, @Param('id') id: number) {
     return await this.userService.update(data, id);

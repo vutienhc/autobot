@@ -5,6 +5,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
 import { StorageModule } from './modules/storages/storages.module';
+import { CategoryModule } from './modules/category/category.module';
+import { PostModule } from './modules/post/post.module';
 
 @Module({
   imports: [
@@ -21,12 +23,14 @@ import { StorageModule } from './modules/storages/storages.module';
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: false,
+        synchronize: true,
       }),
       inject: [ConfigService],
     }),
     UserModule,
-    StorageModule
+    StorageModule,
+    CategoryModule,
+    PostModule,
   ],
   controllers: [AppController],
   providers: [AppService],

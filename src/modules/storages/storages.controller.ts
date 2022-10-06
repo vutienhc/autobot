@@ -21,6 +21,11 @@ export class StoragesController {
     return await this.service.all(query);
   }
 
+  @Get(':id')
+  async byId(@Param('id') id: number) {
+    return await this.service.byId(id);
+  }
+
   @Post()
   async create(@Body() data: Storages) {
     return await this.service.create(data);
