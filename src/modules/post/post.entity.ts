@@ -1,10 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity } from "src/common/base.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Account } from "../account/account.entity";
+import { Channel } from "../channel/channal.entity";
+import { Source } from "../source/source.entity";
 
 @Entity('posts')
-export class Posts {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class Posts extends BaseEntity {
     @Column()
     source_id: number;
 
@@ -25,4 +26,13 @@ export class Posts {
 
     @Column()
     descreption: string;
+
+    @ManyToOne(() => Source, (source) => source.post)
+    source: Source;
+
+    @ManyToOne(() => Account, (account) => account.post)
+    account: Account;
+
+    @ManyToOne(() => Channel, (channel) => channel.post)
+    channel: Channel;
 }

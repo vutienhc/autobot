@@ -1,8 +1,12 @@
+import { BaseEntity } from "src/common/base.entity";
 import { SourceType } from "src/common/enums";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Category } from "../category/category.entity";
+import { Posts } from "../post/post.entity";
+import { Storages } from "../storages/storage.entity";
 
 @Entity('source')
-export class Source {
+export class Source extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -26,4 +30,14 @@ export class Source {
 
     @Column()
     s_link: string;
+
+    @ManyToOne(() => Category, (category) => category.source)
+    category: Category;
+    
+    @ManyToOne(() => Storages, (storage) => storage.source)
+    storage: Storages;
+
+    @OneToMany(() => Posts, (post) => post.source)
+    post: Posts[];
+
 }

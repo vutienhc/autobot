@@ -1,10 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity } from 'src/common/base.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Source } from '../source/source.entity';
 
 @Entity('storages')
-export class Storages {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Storages extends BaseEntity {
   @Column()
   name: string;
 
@@ -13,4 +12,7 @@ export class Storages {
 
   @Column()
   type: number;
+
+  @OneToMany(() => Source, (source)=> source.storage)
+  source: Source[];
 }

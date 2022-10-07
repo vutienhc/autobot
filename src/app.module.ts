@@ -7,6 +7,10 @@ import { UserModule } from './modules/user/user.module';
 import { StorageModule } from './modules/storages/storages.module';
 import { CategoryModule } from './modules/category/category.module';
 import { PostModule } from './modules/post/post.module';
+import { AccountModule } from './modules/account/account.module';
+import { ChannelModule } from './modules/channel/channel.module';
+import { ProxyModule } from './modules/proxy/proxy.module';
+import { UserAgentModule } from './modules/user-agent/useragent.module';
 
 @Module({
   imports: [
@@ -23,7 +27,7 @@ import { PostModule } from './modules/post/post.module';
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
+        synchronize: false,
       }),
       inject: [ConfigService],
     }),
@@ -31,6 +35,10 @@ import { PostModule } from './modules/post/post.module';
     StorageModule,
     CategoryModule,
     PostModule,
+    AccountModule,
+    ChannelModule,
+    ProxyModule,
+    UserAgentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
