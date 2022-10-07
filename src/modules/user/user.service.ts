@@ -19,6 +19,16 @@ export class UserService {
     private jwtService: JwtService,
   ) {}
 
+  async validateUser(email: string, pass: string) {
+    const user = await this.userRepository.findOne({where: {email}});
+    if (user && (pass === user.password)) {
+      return {
+        id: user.id,
+        email: user.email,
+      };
+    }
+    return null;
+  }
   async register(data: RegisterDto) {
     const user = await this.userRepository.findOne({
       where: { email: data.email },
@@ -29,7 +39,7 @@ export class UserService {
         message: Message.EMAIL_EXISTS,
       });
     }
-    const createUser = await this.userRepository.create(data);
+    const createUser = await this.userRepository.save(data);
     if (createUser) {
       return new MessageResult(StatusCode.SUCCESS, Message.SUCCESS);
     }
@@ -39,6 +49,7 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: { email: data.email },
     });
+    console.log(user);
     if (!user) {
       throw new BadRequestException({
         status: StatusCode.ERROR,
@@ -52,9 +63,10 @@ export class UserService {
       });
     }
     const payload = {
+      id: user.id,
       email: user.email,
-      password: user.password,
     };
+
     const { accessToken, refreshToken } = await this.initAccessToken(payload);
     return {
       status: StatusCode.SUCCESS,
@@ -68,10 +80,12 @@ export class UserService {
     return {
       accessToken: this.jwtService.sign(payload, {
         ...options,
+        secret: 'key',
         expiresIn: `10d`,
       }),
       refreshToken: this.jwtService.sign(payload, {
         ...options,
+        secret: 'key',
         expiresIn: `30d`,
       }),
     };
