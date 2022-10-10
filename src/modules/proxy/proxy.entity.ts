@@ -17,6 +17,9 @@ export class Proxy extends BaseEntity {
     password: string;
 
     @Column()
+    country: string;
+
+    @Column()
     status: boolean;
 
     @OneToMany(() => Account, (account) => account.proxy)
